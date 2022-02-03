@@ -351,6 +351,11 @@ public interface CommandClient
      */
     List<SlashCommand> getSlashCommands();
 
+    /**
+     * Returns the list of registered {@link ContextMenu}s during this session.
+     *
+     * @return A never-null List of Context Menus registered during this session
+     */
     List<ContextMenu> getContextMenus();
 
     /**

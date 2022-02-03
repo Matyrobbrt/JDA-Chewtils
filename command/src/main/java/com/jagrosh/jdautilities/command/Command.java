@@ -28,7 +28,7 @@ import net.dv8tion.jda.api.entities.TextChannel;
 
 
 /**
- * <h1><b>Commands In JDA-Utilities</b></h1>
+ * <h2><b>Commands In JDA-Utilities</b></h2>
  *
  * <p>The internal inheritance for Commands used in JDA-Utilities is that of the Command object.
  *

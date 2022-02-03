@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * <h1><b>Slash Commands In JDA-Chewtils</b></h1>
+ * <h2><b>Slash Commands In JDA-Chewtils</b></h2>
  *
  * <p>This intends to mimic the {@link Command command} with minimal breaking changes,
  * to make migration easy and smooth.</p>
