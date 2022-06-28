@@ -676,13 +676,20 @@ public class CommandClientImpl implements CommandClient, EventListener
         // Upsert slash commands, if not manual
         if (!manualUpsert)
         {
-            upsertSlashCommands(event.getJDA());
+            upsertInteractions(event.getJDA());
         }
 
         sendStats(event.getJDA());
     }
 
-    private void upsertSlashCommands(JDA jda)
+    @Override
+    public void upsertInteractions(JDA jda)
+    {
+        upsertInteractions(jda, forcedGuildId);
+    }
+
+    @Override
+    public void upsertInteractions(JDA jda, String serverId)
     {
         // Get all commands
         List<CommandData> data = new ArrayList<>();
@@ -704,10 +711,10 @@ public class CommandClientImpl implements CommandClient, EventListener
         }
 
         // Upsert the commands
-        if (forcedGuildId != null)
+        if (serverId != null)
         {
             // Attempt to retrieve the provided guild
-            Guild server = jda.getGuildById(forcedGuildId);
+            Guild server = jda.getGuildById(serverId);
             if (server == null)
             {
                 LOG.error("Specified forced guild is null! Slash Commands will NOT be added! Is the bot added?");
@@ -715,20 +722,10 @@ public class CommandClientImpl implements CommandClient, EventListener
             }
             // Upsert the commands + their privileges
             server.updateCommands().addCommands(data)
-                .queue(commands -> {
-                    Map<String, Collection<CommandPrivilege>> privileges = new HashMap<>();
-                    for (net.dv8tion.jda.api.interactions.commands.Command command : commands)
-                    {
-                        SlashCommand slashCommand = slashCommandMap.get(command.getName());
-                        ContextMenu contextMenu = contextMenuMap.get(command.getName());
-                        if (slashCommand != null)
-                            privileges.put(command.getId(), slashCommand.buildPrivileges(this));
-                        if (contextMenu != null)
-                            privileges.put(command.getId(), contextMenu.buildPrivileges(this));
-                    }
-                    server.updateCommandPrivileges(privileges)
-                        .queue(priv -> LOG.debug("Successfully added " + commands.size() + " slash commands and " + contextMenus.size() + " menus to server " + server.getName()));
-                }, error -> LOG.error("Could not upsert commands! Does the bot have the applications.commands scope?" + error));
+                .queue(
+                    priv -> LOG.debug("Successfully added " + commands.size() + " slash commands and " + contextMenus.size() + " menus to server " + server.getName()),
+                    error -> LOG.error("Could not upsert commands! Does the bot have the applications.commands scope?" + error)
+                );
         }
         else
             jda.updateCommands().addCommands(data)
@@ -1026,7 +1023,7 @@ public class CommandClientImpl implements CommandClient, EventListener
                     .add("key", carbonKey)
                     .add("servercount", Integer.toString(jda.getGuilds().size()));
 
-            if(jda.getShardInfo() != null)
+            if(jda.getShardInfo() != JDA.ShardInfo.SINGLE)
             {
                 bodyBuilder.add("shard_id", Integer.toString(jda.getShardInfo().getShardId()))
                            .add("shard_count", Integer.toString(jda.getShardInfo().getShardTotal()));
@@ -1056,7 +1053,7 @@ public class CommandClientImpl implements CommandClient, EventListener
         if(botsKey != null)
         {
             JSONObject body = new JSONObject().put("guildCount", jda.getGuilds().size());
-            if(jda.getShardInfo() != null)
+            if(jda.getShardInfo() != JDA.ShardInfo.SINGLE)
             {
                 body.put("shardId", jda.getShardInfo().getShardId())
                     .put("shardCount", jda.getShardInfo().getShardTotal());
