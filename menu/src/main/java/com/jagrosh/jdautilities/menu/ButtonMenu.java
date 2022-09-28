@@ -17,14 +17,16 @@ package com.jagrosh.jdautilities.menu;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.requests.RestAction;
+import net.dv8tion.jda.api.utils.messages.MessageCreateData;
+import net.dv8tion.jda.api.utils.messages.MessageEditBuilder;
+import net.dv8tion.jda.api.utils.messages.MessageEditData;
 import net.dv8tion.jda.internal.utils.Checks;
 
 import java.awt.Color;
@@ -64,7 +66,7 @@ public class ButtonMenu extends Menu
 
     /**
      * Shows the ButtonMenu as a new {@link net.dv8tion.jda.api.entities.Message Message}
-     * in the provided {@link net.dv8tion.jda.api.entities.MessageChannel MessageChannel}.
+     * in the provided {@link MessageChannel}.
      *
      * @param  channel
      *         The MessageChannel to send the new Message to
@@ -72,7 +74,7 @@ public class ButtonMenu extends Menu
     @Override
     public void display(MessageChannel channel)
     {
-        initialize(channel.sendMessage(getMessage()));
+        initialize(channel.sendMessage(MessageCreateData.fromEditData(getMessage())));
     }
 
     /**
@@ -145,11 +147,11 @@ public class ButtonMenu extends Menu
     }
 
     // Generates a ButtonMenu message
-    private Message getMessage()
+    private MessageEditData getMessage()
     {
-        MessageBuilder mbuilder = new MessageBuilder();
+        MessageEditBuilder mbuilder = new MessageEditBuilder();
         if(text!=null)
-            mbuilder.append(text);
+            mbuilder.setContent(text);
         if(description!=null)
             mbuilder.setEmbeds(new EmbedBuilder().setColor(color).setDescription(description).build());
         return mbuilder.build();

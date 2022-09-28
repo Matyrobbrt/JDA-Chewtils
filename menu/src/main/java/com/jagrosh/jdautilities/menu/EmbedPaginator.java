@@ -17,14 +17,17 @@ package com.jagrosh.jdautilities.menu;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.message.GenericMessageEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.dv8tion.jda.api.requests.RestAction;
+import net.dv8tion.jda.api.utils.messages.MessageCreateData;
+import net.dv8tion.jda.api.utils.messages.MessageEditBuilder;
+import net.dv8tion.jda.api.utils.messages.MessageEditData;
 import net.dv8tion.jda.internal.utils.Checks;
 
 import java.util.*;
@@ -79,7 +82,7 @@ public class EmbedPaginator extends Menu{
 
     /**
      * Begins pagination on page 1 as a new {@link net.dv8tion.jda.api.entities.Message Message}
-     * in the provided {@link net.dv8tion.jda.api.entities.MessageChannel MessageChannel}.
+     * in the provided {@link MessageChannel}.
      *
      * @param  channel
      *         The MessageChannel to send the new Message to
@@ -105,7 +108,7 @@ public class EmbedPaginator extends Menu{
 
     /**
      * Begins pagination as a new {@link net.dv8tion.jda.api.entities.Message Message}
-     * in the provided {@link net.dv8tion.jda.api.entities.MessageChannel MessageChannel}, starting
+     * in the provided {@link MessageChannel}, starting
      * on whatever page number is provided.
      *
      * @param  channel
@@ -119,8 +122,8 @@ public class EmbedPaginator extends Menu{
             pageNum = 1;
         else if(pageNum > embeds.size())
             pageNum = embeds.size();
-        Message msg = renderPage(pageNum);
-        initialize(channel.sendMessage(msg), pageNum);
+        MessageEditData msg = renderPage(pageNum);
+        initialize(channel.sendMessage(MessageCreateData.fromEditData(msg)), pageNum);
     }
 
     /**
@@ -139,7 +142,7 @@ public class EmbedPaginator extends Menu{
             pageNum = 1;
         else if(pageNum > embeds.size())
             pageNum = embeds.size();
-        Message msg = renderPage(pageNum);
+        MessageEditData msg = renderPage(pageNum);
         initialize(message.editMessage(msg), pageNum);
     }
 
@@ -309,13 +312,13 @@ public class EmbedPaginator extends Menu{
         message.editMessage(renderPage(newPageNum)).queue(m -> pagination(m, n));
     }
 
-    private Message renderPage(int pageNum)
+    private MessageEditData renderPage(int pageNum)
     {
-        MessageBuilder mbuilder = new MessageBuilder();
+        MessageEditBuilder mbuilder = new MessageEditBuilder();
         MessageEmbed membed = this.embeds.get(pageNum-1);
         mbuilder.setEmbeds(membed);
         if(text != null)
-            mbuilder.append(text.apply(pageNum, embeds.size()));
+            mbuilder.setContent(text.apply(pageNum, embeds.size()));
         return mbuilder.build();
     }
 
@@ -596,7 +599,7 @@ public class EmbedPaginator extends Menu{
         /**
          * Sets the {@link com.jagrosh.jdautilities.menu.EmbedPaginator EmbedPaginator} to traverse left or right
          * when a provided text input is sent in the form of a Message to the
-         * {@link net.dv8tion.jda.api.entities.GuildChannel GuildChannel} the menu is displayed in.
+         * {@link net.dv8tion.jda.api.entities.channel.middleman.GuildChannel GuildChannel} the menu is displayed in.
          *
          * <p>If one or both these parameters are provided {@code null} this resets both of them and they will no
          * longer be available when the Paginator is built.

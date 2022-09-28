@@ -15,18 +15,18 @@
  */
 package com.jagrosh.jdautilities.command;
 
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.GuildVoiceState;
+import net.dv8tion.jda.api.entities.channel.ChannelType;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
+
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Predicate;
-
-import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.AudioChannel;
-import net.dv8tion.jda.api.entities.ChannelType;
-import net.dv8tion.jda.api.entities.GuildVoiceState;
-import net.dv8tion.jda.api.entities.TextChannel;
 
 
 /**
@@ -99,7 +99,7 @@ public abstract class Command extends Interaction
 
     /**
      * {@code true} if the command may only be used in an NSFW
-     * {@link net.dv8tion.jda.api.entities.TextChannel TextChannel} or DMs.
+     * {@link TextChannel} or DMs.
      * {@code false} if it may be used anywhere
      * <br>Default: {@code false}
      */
@@ -339,7 +339,7 @@ public abstract class Command extends Interaction
     }
 
     /**
-     * Checks whether a command is allowed in a {@link net.dv8tion.jda.api.entities.TextChannel TextChannel}
+     * Checks whether a command is allowed in a {@link TextChannel}
      * by searching the channel topic for topic tags relating to the command.
      *
      * <p>{-{@link com.jagrosh.jdautilities.command.Command#name name}},

@@ -15,6 +15,9 @@
  */
 package com.jagrosh.jdautilities.commons.utils;
 
+import net.dv8tion.jda.api.entities.channel.concrete.Category;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.entities.emoji.RichCustomEmoji;
 import net.dv8tion.jda.api.sharding.ShardManager;
@@ -365,7 +368,7 @@ public final class FinderUtil
 
     /**
      * Queries a provided instance of {@link net.dv8tion.jda.api.JDA JDA} for
-     * {@link net.dv8tion.jda.api.entities.TextChannel TextChannel}s.<p>
+     * {@link TextChannel}s.<p>
      *
      * If a {@link net.dv8tion.jda.api.sharding.ShardManager ShardManager} is available this will query across that
      * instead of the JDA instance.
@@ -388,8 +391,7 @@ public final class FinderUtil
     }
 
     /**
-     * Queries a provided instance of {@link net.dv8tion.jda.api.JDA JDA} for
-     * {@link net.dv8tion.jda.api.entities.TextChannel TextChannel}s.<p>
+     * Queries a provided instance of {@link net.dv8tion.jda.api.JDA JDA} for {@link TextChannel}s.<p>
      *
      * This only queries the instance of JDA, regardless of whether or not a
      * {@link net.dv8tion.jda.api.sharding.ShardManager ShardManager} is available.
@@ -412,8 +414,7 @@ public final class FinderUtil
     }
 
     /**
-     * Queries a provided {@link net.dv8tion.jda.api.entities.Guild Guild} for
-     * {@link net.dv8tion.jda.api.entities.TextChannel TextChannel}s.
+     * Queries a provided {@link net.dv8tion.jda.api.entities.Guild Guild} for {@link TextChannel}s.
      *
      * <p>The following special case is applied before the standard search is done:
      * <ul>
@@ -497,8 +498,7 @@ public final class FinderUtil
     }
 
     /**
-     * Queries a provided instance of {@link net.dv8tion.jda.api.JDA JDA} for
-     * {@link net.dv8tion.jda.api.entities.VoiceChannel VoiceChannel}s.<p>
+     * Queries a provided instance of {@link net.dv8tion.jda.api.JDA JDA} for {@link VoiceChannel}s.<p>
      *
      * If a {@link net.dv8tion.jda.api.sharding.ShardManager ShardManager} is available this will query across that
      * instead of the JDA instance.
@@ -518,8 +518,7 @@ public final class FinderUtil
     }
 
     /**
-     * Queries a provided instance of {@link net.dv8tion.jda.api.JDA JDA} for
-     * {@link net.dv8tion.jda.api.entities.VoiceChannel VoiceChannel}s.<p>
+     * Queries a provided instance of {@link net.dv8tion.jda.api.JDA JDA} for {@link VoiceChannel}s.<p>
      *
      * This only queries the instance of JDA, regardless of whether or not a
      * {@link net.dv8tion.jda.api.sharding.ShardManager ShardManager} is available.
@@ -539,8 +538,7 @@ public final class FinderUtil
     }
 
     /**
-     * Queries a provided {@link net.dv8tion.jda.api.entities.Guild Guild} for
-     * {@link net.dv8tion.jda.api.entities.VoiceChannel VoiceChannel}s.
+     * Queries a provided {@link net.dv8tion.jda.api.entities.Guild Guild} for {@link VoiceChannel}s.
      *
      * <p>The standard search does not follow any special cases.
      *
@@ -604,8 +602,7 @@ public final class FinderUtil
     }
 
     /**
-     * Queries a provided instance of {@link net.dv8tion.jda.api.JDA JDA} for
-     * {@link net.dv8tion.jda.api.entities.Category Categories}.<p>
+     * Queries a provided instance of {@link net.dv8tion.jda.api.JDA JDA} for {@link Category Categories}.<p>
      *
      * If a {@link net.dv8tion.jda.api.sharding.ShardManager ShardManager} is available this will query across that
      * instead of the JDA instance.
@@ -625,8 +622,7 @@ public final class FinderUtil
     }
 
     /**
-     * Queries a provided instance of {@link net.dv8tion.jda.api.JDA JDA} for
-     * {@link net.dv8tion.jda.api.entities.Category Categories}.<p>
+     * Queries a provided instance of {@link net.dv8tion.jda.api.JDA JDA} for {@link Category Categories}.<p>
      *
      * This only queries the instance of JDA, regardless of whether or not a
      * {@link net.dv8tion.jda.api.sharding.ShardManager ShardManager} is available.
@@ -646,8 +642,7 @@ public final class FinderUtil
     }
 
     /**
-     * Queries a provided {@link net.dv8tion.jda.api.entities.Guild Guild} for
-     * {@link net.dv8tion.jda.api.entities.Category Categories}.
+     * Queries a provided {@link net.dv8tion.jda.api.entities.Guild Guild} for {@link Category Categories}.
      *
      * <p>The standard search does not follow any special cases.
      *

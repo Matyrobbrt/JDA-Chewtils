@@ -15,15 +15,15 @@
  */
 package com.jagrosh.jdautilities.command;
 
-import net.dv8tion.jda.api.entities.ChannelType;
-import net.dv8tion.jda.api.entities.GuildChannel;
 import net.dv8tion.jda.api.entities.IMentionable;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.channel.ChannelType;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import org.jetbrains.annotations.Contract;
@@ -354,7 +354,7 @@ public class SlashCommandEvent extends SlashCommandInteractionEvent {
     }
 
     /**
-     * Gets the {@link net.dv8tion.jda.api.entities.TextChannel TextChannel} that this CommandEvent
+     * Gets the {@link TextChannel} that this CommandEvent
      * may have taken place on, or {@code null} if it didn't happen on a TextChannel.
      *
      * @return The TextChannel this CommandEvent may have taken place on, or null
