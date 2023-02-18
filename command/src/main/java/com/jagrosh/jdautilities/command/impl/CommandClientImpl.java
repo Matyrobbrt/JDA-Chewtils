@@ -41,8 +41,6 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.events.GenericEvent;
-import net.dv8tion.jda.api.events.ReadyEvent;
-import net.dv8tion.jda.api.events.ShutdownEvent;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
@@ -51,6 +49,8 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.events.interaction.command.UserContextInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageDeleteEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.session.ReadyEvent;
+import net.dv8tion.jda.api.events.session.ShutdownEvent;
 import net.dv8tion.jda.api.hooks.EventListener;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.internal.utils.Checks;
@@ -923,7 +923,7 @@ public class CommandClientImpl implements CommandClient, EventListener
     private void onSlashCommand(SlashCommandInteractionEvent event)
     {
         // this will be null if it's not a command
-        final SlashCommand command = findSlashCommand(event.getCommandPath());
+        final SlashCommand command = findSlashCommand(event.getFullCommandName());
 
         // Wrap the event in a SlashCommandEvent
         final SlashCommandEvent commandEvent = new SlashCommandEvent(event, this);
@@ -941,7 +941,7 @@ public class CommandClientImpl implements CommandClient, EventListener
     private void onCommandAutoComplete(CommandAutoCompleteInteractionEvent event)
     {
         // this will be null if it's not a command
-        final SlashCommand command = findSlashCommand(event.getCommandPath());
+        final SlashCommand command = findSlashCommand(event.getFullCommandName());
 
         if(command != null)
         {
@@ -951,7 +951,7 @@ public class CommandClientImpl implements CommandClient, EventListener
 
     private SlashCommand findSlashCommand(String path)
     {
-        String[] parts = path.split("/");
+        String[] parts = path.split(" ");
 
         final SlashCommand command; // this will be null if it's not a command
         synchronized(slashCommandIndex)

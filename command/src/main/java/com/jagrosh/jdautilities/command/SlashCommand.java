@@ -22,13 +22,9 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.entities.channel.middleman.AudioChannel;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
+import net.dv8tion.jda.api.interactions.DiscordLocale;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
-import net.dv8tion.jda.api.interactions.commands.build.CommandData;
-import net.dv8tion.jda.api.interactions.commands.build.Commands;
-import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
-import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
-import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;
+import net.dv8tion.jda.api.interactions.commands.build.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -72,6 +68,30 @@ import java.util.Map;
  */
 public abstract class SlashCommand extends Command
 {
+    /**
+     * Localization of slash command name. Allows discord to change the language of the name of slash commands in the client.<br>
+     * Example:<br>
+     *<pre><code>
+     *     public Command() {
+     *          this.name = "help"
+     *          this.nameLocalization = Map.of(DiscordLocale.GERMAN, "hilfe", DiscordLocale.RUSSIAN, "помощь");
+     *     }
+     *</code></pre>
+     */
+    protected Map<DiscordLocale, String> nameLocalization = new HashMap<>();
+
+    /**
+     * Localization of slash command description. Allows discord to change the language of the description of slash commands in the client.<br>
+     * Example:<br>
+     *<pre><code>
+     *     public Command() {
+     *          this.description = "all commands"
+     *          this.descriptionLocalization = Map.of(DiscordLocale.GERMAN, "alle Befehle", DiscordLocale.RUSSIAN, "все команды");
+     *     }
+     *</code></pre>
+     */
+    protected Map<DiscordLocale, String> descriptionLocalization = new HashMap<>();
+
     /**
      * This option is deprecated in favor of using Discord's permissions<br>
      * This deprecation can be ignored if you intend to support normal and slash commands.
@@ -383,6 +403,20 @@ public abstract class SlashCommand extends Command
         {
             data.addOptions(getOptions());
         }
+
+        //Check name localizations
+        if (!getNameLocalization().isEmpty())
+        {
+            //Add localizations
+            data.setNameLocalizations(getNameLocalization());
+        }
+        //Check description localizations
+        if (!getDescriptionLocalization().isEmpty())
+        {
+            //Add localizations
+            data.setDescriptionLocalizations(getDescriptionLocalization());
+        }
+
         // Check for children
         if (children.length != 0)
         {
@@ -396,6 +430,19 @@ public abstract class SlashCommand extends Command
                 if (!child.getOptions().isEmpty())
                 {
                     subcommandData.addOptions(child.getOptions());
+                }
+
+                //Check child name localizations
+                if (!child.getNameLocalization().isEmpty())
+                {
+                    //Add localizations
+                    subcommandData.setNameLocalizations(child.getNameLocalization());
+                }
+                //Check child description localizations
+                if (!child.getDescriptionLocalization().isEmpty())
+                {
+                    //Add localizations
+                    subcommandData.setDescriptionLocalizations(child.getDescriptionLocalization());
                 }
 
                 // If there's a subcommand group
@@ -504,5 +551,21 @@ public abstract class SlashCommand extends Command
             return front+" "+ CooldownScope.CHANNEL.errorSpecification+"!";
         else
             return front+" "+cooldownScope.errorSpecification+"!";
+    }
+
+    /**
+     * Gets the specified localizations of slash command names.
+     * @return Slash command name localizations.
+     */
+    public Map<DiscordLocale, String> getNameLocalization() {
+        return nameLocalization;
+    }
+
+    /**
+     * Gets the specified localizations of slash command descriptions.
+     * @return Slash command description localizations.
+     */
+    public Map<DiscordLocale, String> getDescriptionLocalization() {
+        return descriptionLocalization;
     }
 }
